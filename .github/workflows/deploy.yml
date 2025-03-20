@@ -61,6 +61,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
           source: 'build/*' # Source files to copy
           target: ${{ secrets.HOSTINGER_PATH }} # Destination on Hostinger
           strip_components: 1 # Removes the 'build/' prefix when copying
