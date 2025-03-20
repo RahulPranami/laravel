@@ -45,14 +45,14 @@ jobs:
         run: |
           mkdir -p build
           cp -r public/* build/  # Copy public directory (including compiled React assets)
-          cp -r app build/       # Copy app directory (if needed)
-          cp -r bootstrap build/ # Copy bootstrap directory
-          cp -r config build/    # Copy config directory
-          cp -r database build/  # Copy database directory (for migrations)
-          cp -r routes build/    # Copy routes directory
-          cp -r resources build/ # Copy resources directory (if needed)
-          cp -r vendor build/    # Copy vendor directory (Composer dependencies)
-          cp artisan build/      # Copy artisan file
+          # cp -r app build/       # Copy app directory (if needed)
+          # cp -r bootstrap build/ # Copy bootstrap directory
+          # cp -r config build/    # Copy config directory
+          # cp -r database build/  # Copy database directory (for migrations)
+          # cp -r routes build/    # Copy routes directory
+          # cp -r resources build/ # Copy resources directory (if needed)
+          # cp -r vendor build/    # Copy vendor directory (Composer dependencies)
+          # cp artisan build/      # Copy artisan file
       # Deploy to Hostinger via SSH (uncomment FTP section below if using FTP)
       # # Copy build files to Hostinger via SSH
       - name: Deploy to Hostinger via SSH
