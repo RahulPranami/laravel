@@ -44,6 +44,7 @@ jobs:
       - name: Prepare Build Files
         run: |
           mkdir -p build
+          ls -la public
           cp -r public/* build/  # Copy public directory (including compiled React assets)
           # cp -r app build/       # Copy app directory (if needed)
           # cp -r bootstrap build/ # Copy bootstrap directory
