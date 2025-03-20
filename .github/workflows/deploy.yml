@@ -40,9 +40,42 @@ jobs:
 
       - name: Run Build
         run: npm run build
-
-      - name: Commit Changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+      # Prepare build files (optional: customize this step)
+      - name: Prepare Build Files
+        run: |
+          mkdir -p build
+          cp -r public/* build/  # Copy public directory (including compiled React assets)
+          cp -r app build/       # Copy app directory (if needed)
+          cp -r bootstrap build/ # Copy bootstrap directory
+          cp -r config build/    # Copy config directory
+          cp -r database build/  # Copy database directory (for migrations)
+          cp -r routes build/    # Copy routes directory
+          cp -r resources build/ # Copy resources directory (if needed)
+          cp -r vendor build/    # Copy vendor directory (Composer dependencies)
+          cp artisan build/      # Copy artisan file
+      # Deploy to Hostinger via SSH (uncomment FTP section below if using FTP)
+      # # Copy build files to Hostinger via SSH
+      - name: Deploy to Hostinger via SSH
+        uses: appleboy/scp-action@master
         with:
-          commit_message: Production Build
-          commit_options: '--no-verify'
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          source: 'build/*' # Source files to copy
+          target: ${{ secrets.HOSTINGER_PATH }} # Destination on Hostinger
+          strip_components: 1 # Removes the 'build/' prefix when copying
+          overwrite: true # Overwrite existing files
+      # - name: Deploy to Hostinger via SSH
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ secrets.SSH_HOST }}
+      #     username: ${{ secrets.SSH_USERNAME }}
+      #     key: ${{ secrets.SSH_KEY }}
+      #     script: |
+      #       cd ${{ secrets.HOSTINGER_PATH }}
+      #       git pull origin main  # Assumes Git is set up on Hostinger
+      #       composer install --no-dev --optimize-autoloader --no-interaction
+      #       php artisan migrate --force  # Run migrations (optional)
+      #       php artisan config:cache
+      #       php artisan route:cache
+      #       php artisan view:cache
